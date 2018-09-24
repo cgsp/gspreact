@@ -1,4 +1,5 @@
 const express = require('express')
+const favicon = require('serve-favicon')
 const ReactSSR = require('react-dom/server')
 const fs = require('fs')
 const path = require('path')
@@ -6,6 +7,9 @@ const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 
 const app = express()
+
+// 需要在服务端渲染的代码之前使用
+app.use(favicon(path.join(__dirname, '../gsp.ico')))
 
 if (!isDev) {
   // 如果不是Dev环境，就去硬盘上面读取
