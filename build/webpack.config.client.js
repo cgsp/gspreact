@@ -42,7 +42,7 @@ if (isDev) {
     publicPath: '/public/',
     historyApiFallback: {
       index: '/public/index.html'
-    }
+    },
   }
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
 }
