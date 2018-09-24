@@ -1,4 +1,4 @@
-const myGetJsonTree = function (plainArr, pid) {
+const myGetJsonTree = (plainArr, pid) => {
   let jsonTree = []
   for (let i = 0; i < plainArr.length; i++) {
     const node = plainArr[i]
