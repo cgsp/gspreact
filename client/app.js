@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { AppContainer } from 'react-hot-loader' // eslint-disable-line
 import App from '@Pages/App'
 
@@ -7,7 +8,10 @@ const root = document.getElementById('root')
 const render = (Component) => {
   ReactDOM.hydrate(
     <AppContainer>
-      <Component />
+      {/* <BrowserRouter basename="/ssr"> */}
+      <BrowserRouter>
+        <Component />
+      </BrowserRouter>
     </AppContainer>,
     root,
   )
