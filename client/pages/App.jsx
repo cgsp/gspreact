@@ -10,11 +10,11 @@ class App extends Component {
 
   render() {
     return [
-      <div>
+      <div key="link">
         <Link to="/topic-list">列表页</Link>
         <Link to="/topic-detail">详情页</Link>
       </div>,
-      <RootRoutes />
+      <RootRoutes key="app-route" />
     ]
   }
 }
