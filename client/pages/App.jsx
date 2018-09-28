@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import RootRoutes from '@Router'
 
 class App extends Component {
@@ -9,7 +10,10 @@ class App extends Component {
 
   render() {
     return [
-      <div>22ddd1</div>,
+      <div>
+        <Link to="/topic-list">列表页</Link>
+        <Link to="/topic-detail">详情页</Link>
+      </div>,
       <RootRoutes />
     ]
   }

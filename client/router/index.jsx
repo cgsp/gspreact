@@ -15,6 +15,10 @@ import NoMatch404 from '@Pages/no-match-404'
 // pure function组件
 export default () => (
   <Switch>
+    {/* Redirect有push这个属性，如果设置为true的话，会进入history里面，这样点击浏览器的返回的话，就2个路由之间跳来跳去 */}
+    {/* <Redirect push={true} to="/topic-list" />} */}
+    {/* 也可以按照下面方式使用 */}
+    {/* <Redirect from="/" to="/topic-list" />} */}
     <Route path="/" render={() => <Redirect to="/topic-list" />} exact key="/" />
     <Route path="/topic-list" component={TopicList} key="/topic-list" />
     <Route path="/topic-detail" component={TopicDetail} key="/topic-detail" />
