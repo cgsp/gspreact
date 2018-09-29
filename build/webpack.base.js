@@ -37,15 +37,43 @@ module.exports = {
         ]
       },
       {
-        test: /.jsx$/,
-        loader: 'babel-loader'
+        test: /\.(jsx|mjx)$/,
+        loader: 'babel-loader',
+        options: {
+          "plugins": [
+            "transform-decorators-legacy",
+            "react-hot-loader/babel",
+            [
+              "import",
+              {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "css"
+              }
+            ]
+          ]
+        }
       },
       {
-        test: /.js$/,
+        test: /\.js$/,
         loader: 'babel-loader',
         exclude: [
           path.join(__dirname, '../node_modules')
-        ]
+        ],
+        options: {
+          "plugins": [
+            "transform-decorators-legacy",
+            "react-hot-loader/babel",
+            [
+              "import",
+              {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "css"
+              }
+            ]
+          ]
+        }
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -53,7 +81,15 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        }
+      },
     ]
   },
 }
