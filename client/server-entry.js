@@ -1,4 +1,4 @@
 import React from 'react'
-import App from './pages/App'
+import App from '@Pages/App'
 
 export default <App />
