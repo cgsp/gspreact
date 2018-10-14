@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import RootRoutes from '@Router'
+import AppRootRoutes from '@Router'
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class App extends Component {
         <Link to="/topic-list">列表页</Link>
         <Link to="/topic-detail">详情页</Link>
       </div>,
-      <RootRoutes key="app-route" />
+      <AppRootRoutes key="appRootRoutes" />
     ]
   }
 }
