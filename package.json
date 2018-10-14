@@ -57,7 +57,6 @@
     "webpack-merge": "^3.0.0"
   },
   "dependencies": {
-    "antd": "^3.9.3",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",

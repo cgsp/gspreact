@@ -10,7 +10,6 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 // 让路由对应的组件都是同步加载
 import TopicList from '@Pages/topic-list'
 import TopicDetail from '@Pages/topic-detail'
-import Test from '@Pages/test'
 import NoMatch404 from '@Pages/no-match-404'
 
 // pure function组件
@@ -23,7 +22,6 @@ export default () => (
     <Route path="/" render={() => <Redirect to="/topic-list" />} exact key="/" />
     <Route path="/topic-list" component={TopicList} key="/topic-list" />
     <Route path="/topic-detail" component={TopicDetail} key="/topic-detail" />
-    <Route path="/test" component={Test} key="/test" />
     <Route path="/no-match-404" component={NoMatch404} key="/no-match-404" />
     <Redirect to="/no-match-404" />
   </Switch>
