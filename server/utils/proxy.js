@@ -3,10 +3,14 @@ const baseUrl = 'http://cnodejs.org/api/v1'
 
 module.exports = function (req, res, next) {
   const path = req.path
+  // || {} 防止报错
   const user = req.session.user || {}
+  // 是否需要token
   const needAccessToken = req.query.needAccessToken
 
-  if (needAccessToken && user.accessToken) {
+  // 如果needAccessToken等于true, 证明需要token，
+  // 但是我们的客户端的，session里面的user，里面没token，就证明客户端需要登录了
+  if (needAccessToken && !user.accessToken) {
     res.status(401)
       .send({
         success: false,
@@ -18,9 +22,11 @@ module.exports = function (req, res, next) {
 
   if (query.needAccessToken) delete query.needAccessToken
 
+  // 将请求发向cnode的服务端
   axios(`${baseUrl}${path}`, {
     method: req.method,
     params: query,
+    // 即使这个接口，不需要accesstoken, 加上也没关系
     data: Object.assign({}, req.body, {
       accesstoken: user.accessToken
     }),
@@ -28,6 +34,7 @@ module.exports = function (req, res, next) {
       'Content-Type': 'application/x-www-form-urlencode'
     }
   })
+    // nodejs做中间代理的话，怎么写
     .then(resp => {
       if (resp.status === 200) {
         res.send(resp.data)
@@ -45,6 +52,4 @@ module.exports = function (req, res, next) {
         })
       }
     })
-
-
 }

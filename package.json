@@ -65,7 +65,7 @@
     "mobx-react": "^5.2.8",
     "prop-types": "^15.6.2",
     "qs": "^6.5.2",
-    "query-string": "^6.1.0",
+    "query-string": "^6.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-router": "^4.3.1",
