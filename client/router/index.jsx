@@ -11,6 +11,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import TopicList from '@Pages/topic-list'
 import TopicDetail from '@Pages/topic-detail'
 import NoMatch404 from '@Pages/no-match-404'
+import Test from '@Pages/test'
 
 // pure function组件
 export default () => (
@@ -22,6 +23,7 @@ export default () => (
     <Route path="/" render={() => <Redirect to="/topic-list" />} exact key="/" />
     <Route path="/topic-list" component={TopicList} key="/topic-list" />
     <Route path="/topic-detail" component={TopicDetail} key="/topic-detail" />
+    <Route path="/test" component={Test} key="/test" />
     <Route path="/no-match-404" component={NoMatch404} key="/no-match-404" />
     <Redirect to="/no-match-404" />
   </Switch>

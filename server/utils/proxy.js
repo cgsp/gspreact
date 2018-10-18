@@ -1,5 +1,6 @@
 const axios = require('axios')
-const baseUrl = 'http://cnodejs.org/api/v1'
+const querystring = require('query-string')
+const baseUrl = 'https://cnodejs.org/api/v1'
 
 module.exports = function (req, res, next) {
   const path = req.path
@@ -18,7 +19,9 @@ module.exports = function (req, res, next) {
       })
   }
 
-  const query = Object.assign({}, req.query)
+  const query = Object.assign({}, req.query, {
+    accesstoken: (needAccessToken && req.method === 'GET') ? user.accessToken : ''
+  })
 
   if (query.needAccessToken) delete query.needAccessToken
 
@@ -27,11 +30,13 @@ module.exports = function (req, res, next) {
     method: req.method,
     params: query,
     // 即使这个接口，不需要accesstoken, 加上也没关系
-    data: Object.assign({}, req.body, {
-      accesstoken: user.accessToken
-    }),
+    // 转换为form表单的形式
+    // {a:x,b:y}=>'a=x&b=y'
+    data: querystring.stringify(Object.assign({}, req.body, {
+      accesstoken: (needAccessToken && req.method === 'POST') ? user.accessToken : ''
+    })),
     headers: {
-      'Content-Type': 'application/x-www-form-urlencode'
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
   })
     // nodejs做中间代理的话，怎么写
