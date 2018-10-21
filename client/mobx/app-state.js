@@ -4,8 +4,13 @@ import { observable, computed, action } from 'mobx'
  *最好定义为一个class这样的话，方便调用
  */
 class AppState {
-  @observable count = 0
-  @observable name = 'gsp'
+  constructor({ count, name } = { count: 0, name: 'gsp' }) {
+    this.count = count
+    this.name = name
+  }
+
+  @observable count
+  @observable name
   @computed get msg() {
     return `${this.name} 说数字是${this.count}`
   }
@@ -16,6 +21,14 @@ class AppState {
 
   @action changeName(e) {
     this.name = e.target.value
+  }
+
+  // 服务端渲染专用
+  toJson() {
+    return {
+      count: this.count,
+      name: this.name
+    }
   }
 }
 

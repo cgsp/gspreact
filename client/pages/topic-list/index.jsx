@@ -8,9 +8,8 @@ class TopicList extends Component {
     appState: PropTypes.object
   }
 
-  constructor(props) {
-    super(props)
-    console.log(props)
+  componentDidMount() {
+    // do some
   }
 
   asyncBootstrap() {

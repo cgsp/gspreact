@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import AppRootRoutes from '@Router'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    console.log(props)
+  componentDidMount() {
+    // do some
   }
 
   render() {

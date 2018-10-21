@@ -18,6 +18,11 @@ const config = webpackMerge(baseConfig, {
     // 会以template.html为模板，生成html文件，然后插入app.js
     new HTMLPlugin({
       template: path.join(__dirname, '../client/template.html')
+    }),
+    // 为了让服务端获取客户端的stores里面的state使用
+    new HTMLPlugin({
+      template: '!!ejs-compiled-loader!' + path.join(__dirname, '../client/server.template.ejs'),
+      filename: 'server.ejs'
     })
   ]
 })

@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 
 class NoMatch404 extends Component {
-  constructor(props) {
-    super(props)
-    console.log(props)
+  componentDidMount() {
+    // do some
   }
 
   render() {

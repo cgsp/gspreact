@@ -3,6 +3,8 @@ const path = require('path')
 const webpack = require('webpack')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
+const serialize = require('serialize-javascript')
+const ejs = require('ejs')
 const asyncBootstrap = require('react-async-bootstrapper').default
 const ReactDomServer = require('react-dom/server')
 
@@ -11,7 +13,7 @@ const serverConfig = require('../../build/webpack.config.server')
 // 获取客户端实时的模板文件
 const getTemplate = () => {
   return new Promise((resolve, reject) => {
-    axios.get('http://localhost:8888/public/index.html')
+    axios.get('http://localhost:8888/public/server.ejs')
       .then(res => {
         resolve(res.data)
       })
@@ -55,6 +57,14 @@ serverCompiler.watch({}, (err, stats) => {
   createStoreMap = m.exports.createStoreMap
 })
 
+// 获取store里面的state
+const getStoreState = (stores) => {
+  return Object.keys(stores).reduce((result, storeName) => {
+    result[storeName] = stores[storeName].toJson()
+    return result
+  }, {})
+}
+
 // 对外抛出一个函数
 module.exports = function (app) {
   // 将所有的静态的资源都proxy到
@@ -83,11 +93,19 @@ module.exports = function (app) {
             res.end()
             return
           }
-
-          console.log('stores.appState.count', stores.appState.count)
+          // 获取客户端的sotres的state值
+          const state = getStoreState(stores)
 
           const content = ReactDomServer.renderToString(app)
-          res.send(template.replace('<!-- app -->', content))
+
+          const html = ejs.render(template, {
+            appString: content,
+            initialState: serialize(state)
+          })
+
+          res.send(html)
+
+          // res.send(template.replace('<!-- app -->', content))
         })
 
       })
