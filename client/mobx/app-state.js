@@ -1,4 +1,4 @@
-import { observable, computed, autorun, action } from 'mobx'
+import { observable, computed, action } from 'mobx'
 
 /*
  *最好定义为一个class这样的话，方便调用
@@ -19,16 +19,16 @@ class AppState {
   }
 }
 
-const appState = new AppState()
+// const appState = new AppState()
 
 // 注意autorun 是在class的外部使用的
 // 只要这个state更新了，就会触发
-autorun(() => {
-  console.log(appState.msg)
-})
+// autorun(() => {
+//   console.log(appState.msg)
+// })
 
-setInterval(() => {
-  appState.add()
-}, 2000)
+// setInterval(() => {
+//   appState.add()
+// }, 2000)
 
-export default appState
+export default AppState

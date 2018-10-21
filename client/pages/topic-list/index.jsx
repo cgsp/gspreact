@@ -13,6 +13,15 @@ class TopicList extends Component {
     console.log(props)
   }
 
+  asyncBootstrap() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.props.appState.count = 3
+        resolve(true)
+      }, 1000)
+    })
+  }
+
   render() {
     return (
       <div>

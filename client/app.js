@@ -4,13 +4,13 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader' // eslint-disable-line
 import App from '@Pages/App'
-import appState from '@Mobx/app-state'
+import AppState from '@Mobx/app-state'
 
 const root = document.getElementById('root')
 const render = (Component) => {
   ReactDOM.hydrate(
     <AppContainer>
-      <Provider appState={appState}>
+      <Provider appState={new AppState()}>
         {/* <BrowserRouter basename="/ssr"> */}
         <BrowserRouter>
           <Component />

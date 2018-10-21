@@ -1,9 +1,11 @@
 const axios = require('axios')
+const path = require('path')
 const webpack = require('webpack')
 const MemoryFs = require('memory-fs')
-const ReactDomServer = require('react-dom/server')
 const proxy = require('http-proxy-middleware')
-const path = require('path')
+const asyncBootstrap = require('react-async-bootstrapper').default
+const ReactDomServer = require('react-dom/server')
+
 const serverConfig = require('../../build/webpack.config.server')
 
 // 获取客户端实时的模板文件
@@ -28,7 +30,7 @@ serverCompiler.outputFileSystem = mfs
 
 // 下面是获取一个实时的bundle
 // 全局变量
-let serverBundle
+let serverBundle, createStoreMap
 serverCompiler.watch({}, (err, stats) => {
   if (err) {
     throw err
@@ -49,6 +51,8 @@ serverCompiler.watch({}, (err, stats) => {
   // 一定要指定文件的名称是，server-entry.js,不然读取不到文件的信息
   m._compile(bundle, 'server-entry.js')
   serverBundle = m.exports.default
+  // 拿到mobx数据
+  createStoreMap = m.exports.createStoreMap
 })
 
 // 对外抛出一个函数
@@ -61,8 +65,31 @@ module.exports = function (app) {
   app.get('*', function (req, res) {
     getTemplate()
       .then(template => {
-        const content = ReactDomServer.renderToString(serverBundle)
-        res.send(template.replace('<!-- app -->', content))
+
+        const routerContext = {}
+
+        const stores = createStoreMap()
+
+        const app = serverBundle(stores, routerContext, req.url)
+
+        asyncBootstrap(app).then(() => {
+          // 如果前端的代码里面，有redirect这个属性
+          // <Route path="/" render={() => <Redirect to="/topic-list" />} exact key="/" />
+          // 那么routerContext里面会自动带上，一个url属性
+          // 那么我们就在服务端渲染的时候，直接redirect掉
+          if (routerContext.url) {
+            // 重定向
+            res.status(302).setHeader('Location', routerContext.url)
+            res.end()
+            return
+          }
+
+          console.log('stores.appState.count', stores.appState.count)
+
+          const content = ReactDomServer.renderToString(app)
+          res.send(template.replace('<!-- app -->', content))
+        })
+
       })
   })
 }
