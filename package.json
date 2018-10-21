@@ -12,7 +12,8 @@
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
     "dev:server": "nodemon server/server.js",
     "lint": "eslint --ext .js --ext .jsx client/",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -71,9 +72,10 @@
     "react": "16.2.0",
     "react-async-bootstrapper": "1.1.2",
     "react-dom": "16.2.0",
+    "react-helmet": "^5.2.0",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
-    "serve-favicon": "2.4.5",
-    "serialize-javascript": "1.4.0"
+    "serialize-javascript": "1.4.0",
+    "serve-favicon": "2.4.5"
   }
 }

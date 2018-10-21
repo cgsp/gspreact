@@ -7,6 +7,8 @@ module.exports = webpackMerge(baseConfig, {
   entry: {
     app: path.join(__dirname, '../client/server-entry.js')
   },
+  // 意思是依赖的第三方的包，去node_modules里面加载
+  externals: Object.keys(require('../package.json').dependencies),
   output: {
     filename: 'server-entry.js',
     libraryTarget: 'commonjs2'

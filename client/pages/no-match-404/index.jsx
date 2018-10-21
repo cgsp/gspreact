@@ -7,7 +7,9 @@ class NoMatch404 extends Component {
 
   render() {
     return (
-      <div>我是NoMatch404</div>
+      <div>
+        <div>我是NoMatch404</div>
+      </div>
     )
   }
 }

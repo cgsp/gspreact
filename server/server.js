@@ -2,7 +2,8 @@ const express = require('express')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const ReactSSR = require('react-dom/server')
+// const ReactSSR = require('react-dom/server')
+const serverRender = require('./utils/server-render')
 const fs = require('fs')
 const path = require('path')
 
@@ -38,19 +39,27 @@ app.use('/api', require('./utils/proxy'))
 
 if (!isDev) {
   // 如果不是Dev环境，就去硬盘上面读取
-  const serverEntry = require('../dist/server-entry').default
+  const serverEntry = require('../dist/server-entry')
+  // const serverEntry = require('../dist/server-entry').default
   // 同步地读取文件,必须指定是utf8，这样才能按照string读取,不然就是个buffer
-  const template = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf8')
+  const template = fs.readFileSync(path.join(__dirname, '../dist/server.ejs'), 'utf8')
   app.use('/public', express.static(path.join(__dirname, '../dist')))
-  app.get('*', function (req, res) {
-    const appString = ReactSSR.renderToString(serverEntry)
-    res.send(template.replace('<!-- app -->', appString))
+  app.get('*', function (req, res, next) {
+    // const appString = ReactSSR.renderToString(serverEntry)
+    // res.send(template.replace('<!-- app -->', appString))
+    serverRender(serverEntry, template, req, res)
+      .catch(next)
   })
 } else {
   // 如果是Dev环境，就去内存里面读取
   const devStatic = require('./utils/dev-static')
   devStatic(app)
 }
+
+app.use(function (error, req, res, next) {
+  console.log(error)
+  res.status(500).send(error)
+})
 
 app.listen(3333, function () {
   console.log('node服务在3333端口')
